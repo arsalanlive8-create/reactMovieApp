@@ -1,12 +1,14 @@
 .movie-card {
   position: relative;
-  border-radius: 8px;
-  overflow: hidden;
-  background-color: #1a1a1a;
-  transition: transform 0.2s;
   height: 100%;
   display: flex;
   flex-direction: column;
+
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  overflow: hidden;
+
+  transition: transform 0.2s ease;
 }
 
 .movie-card:hover {
@@ -15,8 +17,9 @@
 
 .movie-poster {
   position: relative;
-  aspect-ratio: 2/3;
   width: 100%;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
 }
 
 .movie-poster img {
@@ -27,96 +30,137 @@
 
 .movie-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.1),
-    rgba(0, 0, 0, 0.8)
-  );
-  opacity: 0;
-  transition: opacity 0.2s;
+  inset: 0;
+
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: space-between;
+
   padding: 1rem;
+
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.4),
+    rgba(0, 0, 0, 0.85)
+  );
+
+  opacity: 0;
+  transition: opacity 0.25s ease;
 }
 
 .movie-card:hover .movie-overlay {
   opacity: 1;
 }
 
-.favorite-btn {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  color: white;
-  font-size: 1.5rem;
-  padding: 0.5rem;
-  background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 50%;
+.favourite-btn {
+  align-self: flex-end;
+
   width: 40px;
   height: 40px;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.2s;
+
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+
+  background-color: rgba(0, 0, 0, 0.6);
+
+  font-size: 20px;
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
 }
 
-.favorite-btn:hover {
-  background-color: rgba(0, 0, 0, 0.8);
+.favourite-btn:hover {
+  background-color: rgba(0, 0, 0, 0.85);
+  transform: scale(1.1);
 }
 
-.favorite-btn.active {
+.favourite-btn.active {
   color: #ff4757;
 }
 
-.rating-select {
-  background-color: rgba(0, 0, 0, 0.7);
+.movie-hover-info {
   color: white;
-  border: none;
-  padding: 0.5rem;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-top: 0.5rem;
+  display: block;
+  width: 100%;
+}
+
+.movie-hover-rating {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.movie-hover-genres {
+  display: block;
+  color: white;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  visibility: visible;
 }
 
 .movie-info {
-  padding: 1rem;
   flex: 1;
+
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+
+  padding: 1rem;
 }
 
 .movie-info h3 {
-  font-size: 1rem;
   margin: 0;
+  font-size: 1rem;
 }
 
 .movie-info p {
+  margin: 0;
+
   color: #999;
   font-size: 0.9rem;
 }
-
 .user-rating {
+  margin-top: auto;
+
   color: #ffd700;
   font-size: 0.9rem;
-  margin-top: auto;
+}
+
+.rating-select {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.7);
+  border: none;
+  cursor: pointer;
 }
 
 @media (max-width: 768px) {
   .movie-card {
     font-size: 0.9rem;
   }
+
   .movie-info {
     padding: 0.75rem;
   }
-  .favorite-btn {
+
+  .favourite-btn {
     width: 32px;
     height: 32px;
     font-size: 1.2rem;
+  }
+
+  .movie-hover-rating {
+    font-size: 0.9rem;
+  }
+
+  .movie-hover-genres {
+    font-size: 0.75rem;
   }
 }
