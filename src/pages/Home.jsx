@@ -1,19 +1,22 @@
 import MovieCard from "../components/MovieCard"
 import {useState, useEffect} from "react"
 import "../css/Home.css"
-import { searchMovies, getPopularMovies, getGenres, getMoviesByGenre } from "../services/api";
-import GenreFilter from "../components/GenreFilter";
+import { searchMovies, getPopularMovies, getGenres, getMoviesByGenre } from "../services/api"
+import GenreFilter from "../components/GenreFilter"
+import YearFilter from "../components/YearFilter"
 
 function Home() {
-    const [searchQuery, setSearchQuery] = useState("");
+    const [searchQuery, setSearchQuery] = useState("")
     const [movies, setMovies] = useState([]) // runs only the first time so its not constantly fetching all movies
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(true)
-    const [genres, setGenres] = useState([]);
-    const [selectedGenre, setSelectedGenre] = useState("");
+    const [genres, setGenres] = useState([])
+    const [selectedGenre, setSelectedGenre] = useState("")
+    const [sortBy, setSortBy] = useState("")
+    const [selectedYear, setSelectedYear] = useState("")
 
-    const [page, setPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
+    const [page, setPage] = useState(1)
+    const [totalPages, setTotalPages] = useState(1)
 
     useEffect(()=>{
         const loadPopularMovies = async () => {
@@ -99,6 +102,35 @@ function Home() {
             setLoading(false);
         }
     }
+    const sortedMovies = [...movies].sort((a, b) => {
+        switch (sortBy) {
+            case "rating-asc":
+                return a.vote_average - b.vote_average;
+
+            case "rating-desc":
+                return b.vote_average - a.vote_average;
+
+            case "date-asc":
+                return new Date(a.release_date || "9999-12-31") -
+                    new Date(b.release_date || "9999-12-31");
+
+            case "date-desc":
+                return new Date(b.release_date || "0000-01-01") -
+                    new Date(a.release_date || "0000-01-01");
+
+            default:
+                return 0;
+        }
+    })
+
+    const currentYear = new Date().getFullYear();
+    const displayedMovies = selectedYear
+        ? sortedMovies.filter((movie) => {
+            const releaseYear = new Date(movie.release_date).getFullYear();
+            if (selectedYear === "40") return currentYear - releaseYear >= 40;
+            return currentYear - releaseYear <= Number(selectedYear);
+        })
+        : sortedMovies;
 
     return (
         <div className="home">
@@ -119,6 +151,20 @@ function Home() {
                     selectedGenre={selectedGenre}
                     onChange={handleGenreChange}
                 />
+
+                <select
+                    className="sort-filter"
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                >
+                    <option value="">Sort by</option>
+                    <option value="rating-asc">Rating: Low → High</option>
+                    <option value="rating-desc">Rating: High → Low</option>
+                    <option value="date-asc">Release Date: Old → New</option>
+                    <option value="date-desc">Release Date: New → Old</option>
+                </select>
+
+                <YearFilter selectedYear={selectedYear} onChange={(e) => setSelectedYear(e.target.value)} />
             </form>
 
             {error && <div className="error-message">{error}</div>}
@@ -130,7 +176,7 @@ function Home() {
             ) : (
                 <>
                     <div className="movies-grid">
-                        {movies.map((movie) => (
+                        {displayedMovies.map((movie) => (
                             <MovieCard movie={movie} key={movie.id} />
                         ))}
                     </div>

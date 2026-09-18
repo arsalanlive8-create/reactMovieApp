@@ -49,6 +49,18 @@
 
   .search-form {
     margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .search-input {
+    flex-basis: 100%;
+  }
+
+  .genre-filter,
+  .sort-filter,
+  .year-filter {
+    flex: 1;
+    margin-left: 0;
   }
 }
 
@@ -101,4 +113,20 @@
 
 .pagination span {
   color: #ccc;
+}
+
+.sort-filter,
+.year-filter {
+  margin-left: 10px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: #333;
+}
+
+.sort-filter:focus,
+.year-filter:focus {
+  outline: none;
 }

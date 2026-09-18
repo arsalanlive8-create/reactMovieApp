@@ -8,7 +8,7 @@ export const getPopularMovies = async (page = 1) => {
     );
     const data = await response.json();
     return data;
-};
+}
 
 export const searchMovies = async (query, page = 1) => {
     const response = await fetch(
@@ -16,7 +16,7 @@ export const searchMovies = async (query, page = 1) => {
     );
     const data = await response.json();
     return data;
-};
+}
 
 export const getGenres = async () => {
     const response = await fetch(
@@ -32,7 +32,7 @@ export const getMoviesByGenre = async (genreId, page = 1) => {
     );
     const data = await response.json();
     return data;
-};
+}
 
 export const getMovieDetails = async (movieId) => {
     const response = await fetch(
@@ -43,4 +43,4 @@ export const getMovieDetails = async (movieId) => {
     }
     const data = await response.json();
     return data;
-};
+}

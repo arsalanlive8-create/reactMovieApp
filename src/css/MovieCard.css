@@ -164,3 +164,8 @@
     font-size: 0.75rem;
   }
 }
+
+.movie-release-ago {
+  font-size: 0.8rem;
+  color: #777;
+}
